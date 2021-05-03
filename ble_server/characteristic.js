@@ -19,7 +19,7 @@ var PeopleCharacteristic = function() {
 util.inherits(PeopleCharacteristic, BlenoCharacteristic);
 
 PeopleCharacteristic.prototype.onReadRequest = function(offset, callback) {
-  console.log('EchoCharacteristic - onReadRequest: value = ' + this._value.toString('hex'));
+  console.log('onReadRequest: value = ' + this._value.toString('hex'));
   //Get the value of up or down
   var res = request('GET', 'http://127.0.0.1:5000/camdata');
   var d = res.getBody();
@@ -34,10 +34,10 @@ PeopleCharacteristic.prototype.onReadRequest = function(offset, callback) {
 PeopleCharacteristic.prototype.onWriteRequest = function(data, offset, withoutResponse, callback) {
   this._value = data;
 
-  console.log('EchoCharacteristic - onWriteRequest: value = ' + this._value.toString('hex'));
+  console.log('onWriteRequest: value = ' + this._value.toString('hex'));
 
   if (this._updateValueCallback) {
-    console.log('EchoCharacteristic - onWriteRequest: notifying');
+    console.log('onWriteRequest: notifying');
 
     this._updateValueCallback(this._value);
   }

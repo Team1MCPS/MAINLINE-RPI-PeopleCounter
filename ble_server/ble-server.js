@@ -2,26 +2,8 @@ const bleno = require('bleno');
 const http = require('http');
 var BlenoPrimaryService = bleno.PrimaryService;
 var PeopleCharacteristic = require('./characteristic');
+var AnalysisCharacteristic = require('./analisys_characteristic');
 const SERVICE_UUID = '9e3764f5-e264-4135-a2a9-70f5b8c8330e';
-
-const optionsStart = {
-  hostname: '127.0.0.1',
-  port: 5000, // Port used by flask
-  path: '/opencamera',
-  method: 'GET'
-}
-
-// Starts the flask service
-const req = http.request(optionsStart, res => {
-  console.log(`statusCode: ${res.statusCode}`);
-  res.on('data', d => {
-    process.stdout.write(d);
-  })
-})
-req.on('error', error => {
-  console.error(error);
-})
-req.end();
 
 bleno.on('stateChange', function(state) {
     console.log('on stateChange: ' + state);
@@ -40,7 +22,8 @@ bleno.on('advertisingStart', function(error) {
         new BlenoPrimaryService({
           uuid: SERVICE_UUID,
           characteristics: [
-            new PeopleCharacteristic()
+            new PeopleCharacteristic(),
+            new AnalysisCharacteristic()
           ]
         })
       ]);
