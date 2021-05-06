@@ -3,6 +3,8 @@ import json
 import people_counter
 import threading
 import argparse
+import sys
+import os, random
 
 mutex = threading.Lock()
 
@@ -10,6 +12,8 @@ app = Flask(__name__)
 
 totalDown = 0
 totalUp = 0
+
+DEMO_MODE = False
 
 @app.route('/camdata', methods = ['GET']) 
 def postdata(): 
@@ -46,7 +50,12 @@ def openCameraThread():
     global mutex
 
     args = dict()
-    args['input'] = 'videos/test_frame_ridotto.mp4'
+
+    if "demo" in sys.argv:
+        video = random.choice(os.listdir("videos/"))
+        print("[INFO] video selected "+video)
+        args['input'] = 'videos/'+video
+        
     args['confidence'] = 0.4
     args['skip_frames'] = 30
 
@@ -57,11 +66,3 @@ def openCameraThread():
 
 if __name__ == "__main__":
     app.run(port=5000)
-	
-    
-    
-    
-	
-	
-
-    
