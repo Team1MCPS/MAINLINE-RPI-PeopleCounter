@@ -7,7 +7,7 @@ var BlenoCharacteristic = bleno.Characteristic;
 var AnalysisCharacteristic = function() {
   AnalysisCharacteristic.super_.call(this, {
     uuid: '77962ccf-b032-4467-b03f-1bde4f9bcf71',
-    properties: ['write'],
+    properties: ['writeWithoutResponse'],
     value: null
   });
   this._value = Buffer.from("#");

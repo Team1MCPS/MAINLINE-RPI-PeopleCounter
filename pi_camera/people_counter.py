@@ -71,7 +71,7 @@ def main(args):
 	# start the frames per second throughput estimator
 	fps = FPS().start()
 
-	record_duration = 10
+	record_duration = 30
 	start_time = time.time()
 	# loop over frames from the video stream
 	while True:

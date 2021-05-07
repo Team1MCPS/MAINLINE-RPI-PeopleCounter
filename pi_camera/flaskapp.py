@@ -10,8 +10,8 @@ mutex = threading.Lock()
 
 app = Flask(__name__) 
 
-totalDown = 0
-totalUp = 0
+totalDown = '#'
+totalUp = '#'
 
 DEMO_MODE = False
 
@@ -22,16 +22,19 @@ def postdata():
     global mutex
 
     data = dict()
-    mutex.acquire()
-    if (totalDown == 0 and totalUp == 0):
-        mutex.release()
-        data['delta'] = '#'
-        return json.dumps({"data":data})
-    data['delta'] = totalUp - totalDown
-    totalDown = 0
-    totalUp = 0
-    mutex.release()
-
+    if mutex.locked() == False:
+    	mutex.acquire()
+    	if (totalDown == '#' and totalUp == '#'):
+            mutex.release()
+            data['delta'] = '#'
+	else:
+    	    data['delta'] = totalUp - totalDown
+    	    # Resetting
+       	    totalDown = '#'
+    	    totalUp = '#'
+    	    mutex.release()
+    else:
+	data['delta'] = '#'
     return json.dumps({"data":data}) 
    
 @app.route('/opencamera', methods = ['GET']) 
@@ -60,6 +63,8 @@ def openCameraThread():
     args['skip_frames'] = 30
 
     mutex.acquire()
+    totalDown = 0
+    totalUp = 0
     totalDown, totalUp = people_counter.main(args)
     mutex.release()
     
