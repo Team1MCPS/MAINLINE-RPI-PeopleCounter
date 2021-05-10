@@ -5,11 +5,13 @@ const request = require('sync-request');
 var BlenoCharacteristic = bleno.Characteristic;
 
 var AnalysisCharacteristic = function() {
+  // Set propertis of this characteristic
   AnalysisCharacteristic.super_.call(this, {
     uuid: '77962ccf-b032-4467-b03f-1bde4f9bcf71',
     properties: ['writeWithoutResponse'],
     value: null
   });
+  // Set initial value
   this._value = Buffer.from("#");
   this._updateValueCallback = null;
 };
@@ -17,10 +19,12 @@ var AnalysisCharacteristic = function() {
 
 util.inherits(AnalysisCharacteristic, BlenoCharacteristic);
 
+// Function executed when the server receives a write request on this property
 AnalysisCharacteristic.prototype.onWriteRequest = function(data, offset, withoutResponse, callback) {
   this._value = data;
   console.log('onWriteRequest: value = ' + this._value.toString('hex'));
   console.log('Starting video analysis');
+  // Send an http requests to start the video analysis
   const optionsStart = {
     hostname: '127.0.0.1',
     port: 5000, // Port used by flask

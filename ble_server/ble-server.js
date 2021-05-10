@@ -1,6 +1,8 @@
 const bleno = require('bleno');
 const http = require('http');
+// BLE service
 var BlenoPrimaryService = bleno.PrimaryService;
+// BLE characteristics
 var PeopleCharacteristic = require('./characteristic');
 var AnalysisCharacteristic = require('./analisys_characteristic');
 const SERVICE_UUID = '9e3764f5-e264-4135-a2a9-70f5b8c8330e';

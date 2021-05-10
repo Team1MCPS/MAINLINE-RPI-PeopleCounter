@@ -5,17 +5,20 @@ const request = require('sync-request');
 var BlenoCharacteristic = bleno.Characteristic;
 
 var PeopleCharacteristic = function() {
+  // Set properties of this characteristic
   PeopleCharacteristic.super_.call(this, {
     uuid: '3e715fb3-6d8d-442c-8ec6-a35ff777799c',
     properties: ['read'],
     value: null
   });
+  // Set the inital value
   this._value = Buffer.from("#");
   this._updateValueCallback = null;
 };
 
 util.inherits(PeopleCharacteristic, BlenoCharacteristic);
 
+// Function executed when the server receives a read request on this property
 PeopleCharacteristic.prototype.onReadRequest = function(offset, callback) {
   console.log('onReadRequest: value = ' + this._value.toString('hex'));
   //Get the value of delta
